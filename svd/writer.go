@@ -33,7 +33,7 @@ func writePeripherals(peripherals []Peripheral) string {
       pub const %s = struct {
 %s
       };
-`, comment, escape(peripheral.Name), writeRegisters(peripheral.registers))
+`, comment, escape(peripheral.Name), writeRegisters(peripheral.DerivedRegisters))
 	}
 
 	return s
@@ -45,15 +45,15 @@ func writeRegisters(registers []DerivedRegister) string {
 	for i := 0; i < len(registers); i++ {
 		register := registers[i]
 		comment := ""
-		if register.description != "" {
-			comment = fmt.Sprintf("/// %s", prettyComment(register.description))
+		if register.Description != "" {
+			comment = fmt.Sprintf("/// %s", prettyComment(register.Description))
 		}
 		s += fmt.Sprintf(`
         %s
         pub const %s = @as(*volatile mmio.Mmio(packed struct(u%d) {
 %s
         }), @ptrFromInt(0x%x));
-`, comment, escape(register.name), register.size, writeFields(register), register.address)
+`, comment, escape(register.Name), register.Size, writeFields(register), register.Address)
 	}
 
 	return s
@@ -61,13 +61,21 @@ func writeRegisters(registers []DerivedRegister) string {
 
 func writeFields(register DerivedRegister) string {
 	var s = ""
-	for i := 0; i < len(register.fields); i++ {
-		field := register.fields[i]
-		comment := prettyComment(field.description)
+	for i := 0; i < len(register.DerivedFields); i++ {
+		field := register.DerivedFields[i]
+		comment := prettyComment(field.Description)
+		t := fmt.Sprintf("u%d", field.Size)
+		if field.Enums != nil {
+			values := make([]string, len(field.Enums))
+			for j := 0; j < len(field.Enums); j++ {
+				values[j] = fmt.Sprintf("%s = %d,", field.Enums[j].Name, field.Enums[j].Value)
+			}
+			t = fmt.Sprintf("enum(%d) {%s}", field.Size, strings.Join(values, ","))
+		}
 		s += fmt.Sprintf(`
           /// [%d:%d] %s
-          %s: u%d,
-`, field.lsb, field.msb, comment, escape(field.name), field.msb-field.lsb+1)
+          %s: %s,
+`, field.Lsb, field.Msb, comment, escape(field.Name), t)
 	}
 
 	return s

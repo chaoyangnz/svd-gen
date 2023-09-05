@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func Read(svd []byte) Device {
+func Parse(svd []byte) Device {
 
 	var dev schema.Device
 	err := xml.Unmarshal(svd, &dev)
@@ -128,24 +128,50 @@ func toNumber(s string) int {
 	if strings.HasPrefix(s, "0x") {
 		n, err := strconv.ParseInt(s[2:], 16, 64)
 		if err != nil {
-			fmt.Printf("Warn: unable to covert %s to hex", s)
+			warn("unable to covert hex %s", s)
 		}
 		return int(n)
 	}
 	if strings.HasSuffix(s, "0b") {
-		n, _ := strconv.ParseInt(s[2:], 2, 64)
+		n, err := strconv.ParseInt(s[2:], 2, 64)
+		if err != nil {
+			warn("unable to covert binary %s", s)
+		}
 		return int(n)
 	}
-	n, _ := strconv.Atoi(s)
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		warn("unable to covert number %s", s)
+	}
 	return n
+}
+
+func info(message string, args ...any) {
+	fmt.Printf("[info]"+message, args)
+}
+
+func warn(message string, args ...any) {
+	fmt.Printf("[warn]"+message, args)
+}
+
+func fatal(message string, args ...any) {
+	panic(fmt.Sprintf(message, args))
 }
 
 func derive(device Device) {
 	for i := 0; i < len(device.Peripherals); i++ {
 		p := &device.Peripherals[i]
 
-		p.registers = deriveRegisters(device, *p)
+		p.DerivedRegisters = deriveRegisters(device, *p)
 	}
+}
+
+func replace(s string, to string, from ...string) string {
+	var str = s
+	for i := 0; i < len(from); i++ {
+		str = strings.ReplaceAll(str, from[i], to)
+	}
+	return str
 }
 
 func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
@@ -169,14 +195,14 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 
 		for k := 0; k < dim; k++ {
 			if dim > 1 {
-				name = strings.ReplaceAll(strings.ReplaceAll(r.Name, "[%s]", strconv.Itoa(k)), "%s", strconv.Itoa(k))
+				name = replace(name, strconv.Itoa(k), "[%s]", "%s")
 			}
 			registers = append(registers, DerivedRegister{
-				name:        name,
-				description: r.Description,
-				address:     baseAddress + addressOffset + k*(size/8),
-				size:        size,
-				fields:      deriveFields(r, size),
+				Name:          name,
+				Description:   r.Description,
+				Address:       baseAddress + addressOffset + k*(size/8),
+				Size:          size,
+				DerivedFields: deriveFields(r, size),
 			})
 		}
 	}
@@ -189,43 +215,34 @@ func deriveFields(r Register, size int) []DerivedField {
 	fields := make([]DerivedField, 0)
 	for x := 0; x < len(r.Fields); x++ {
 		f := r.Fields[x]
+		var lsb int
+		var msb int
 		if f.Msb != "" && f.Lsb != "" {
-			fields = append(fields, DerivedField{
-				name:             f.Name,
-				description:      f.Description,
-				lsb:              toNumber(f.Lsb),
-				msb:              toNumber(f.Msb),
-				EnumeratedValues: f.EnumeratedValues,
-			})
+			lsb = toNumber(f.Lsb)
+			msb = toNumber(f.Msb)
 		} else if f.BitOffset != "" && f.BitWidth != "" {
-			fields = append(fields, DerivedField{
-				name:             f.Name,
-				description:      f.Description,
-				lsb:              toNumber(f.BitOffset),
-				msb:              toNumber(f.BitOffset) + toNumber(f.BitWidth) - 1,
-				EnumeratedValues: f.EnumeratedValues,
-			})
+			lsb = toNumber(f.BitOffset)
+			msb = toNumber(f.BitOffset) + toNumber(f.BitWidth) - 1
 		} else if f.BitRange != "" {
 			pair := strings.Split(f.BitRange[1:len(f.BitRange)-1], ":")
-			msb := toNumber(pair[0])
-			lsb := toNumber(pair[1])
-			if msb < lsb {
-				tmp := msb
-				msb = lsb
-				lsb = tmp
-			}
-			fields = append(fields, DerivedField{
-				name:             f.Name,
-				description:      f.Description,
-				lsb:              lsb,
-				msb:              msb,
-				EnumeratedValues: f.EnumeratedValues,
-			})
+			sort.Slice(pair, func(i int, j int) bool { return pair[i] < pair[j] })
+			msb = toNumber(pair[0])
+			lsb = toNumber(pair[1])
+		} else {
+			fatal("Unable to find bit range %s.%s", r.Name, f.Name)
 		}
+		fields = append(fields, DerivedField{
+			Name:        f.Name,
+			Description: f.Description,
+			Lsb:         lsb,
+			Msb:         msb,
+			Size:        msb - lsb + 1,
+			Enums:       f.EnumeratedValues,
+		})
 	}
 
 	sort.Slice(fields, func(i, j int) bool {
-		return fields[i].lsb < fields[j].lsb
+		return fields[i].Lsb < fields[j].Lsb
 	})
 
 	// populate and add reserved fields
@@ -233,22 +250,22 @@ func deriveFields(r Register, size int) []DerivedField {
 	res := 0
 	if len(fields) == 0 {
 		derivedFields = append(derivedFields, DerivedField{
-			name:             "raw",
-			lsb:              0,
-			msb:              size - 1,
-			EnumeratedValues: nil,
+			Name:  "raw",
+			Lsb:   0,
+			Msb:   size - 1,
+			Enums: nil,
 		})
 	}
 
 	for x := 0; x < len(fields); x++ {
-		// check first one
+		// check first reserved
 		if x == 0 {
-			if fields[0].lsb > 0 {
+			if fields[0].Lsb > 0 {
 				derivedFields = append(derivedFields, DerivedField{
-					name:             fmt.Sprintf("res%d", res),
-					lsb:              0,
-					msb:              fields[0].lsb - 1,
-					EnumeratedValues: nil,
+					Name:  fmt.Sprintf("res%d", res),
+					Lsb:   0,
+					Msb:   fields[0].Lsb - 1,
+					Enums: nil,
 				})
 				res++
 			}
@@ -258,15 +275,15 @@ func deriveFields(r Register, size int) []DerivedField {
 		derivedFields = append(derivedFields, f)
 		next := size
 		if x < len(fields)-1 {
-			next = fields[x+1].lsb
+			next = fields[x+1].Lsb
 		}
 		// add reserved fields
-		if f.msb+1 < next {
+		if f.Msb+1 < next {
 			derivedFields = append(derivedFields, DerivedField{
-				name:             fmt.Sprintf("res%d", res),
-				lsb:              fields[x].msb + 1,
-				msb:              next - 1,
-				EnumeratedValues: nil,
+				Name:  fmt.Sprintf("res%d", res),
+				Lsb:   fields[x].Msb + 1,
+				Msb:   next - 1,
+				Enums: nil,
 			})
 			res++
 		}

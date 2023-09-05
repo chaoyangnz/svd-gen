@@ -25,7 +25,7 @@ type Peripheral struct {
 	BaseAddress string
 	Registers   []Register
 	// derived
-	registers []DerivedRegister
+	DerivedRegisters []DerivedRegister
 }
 
 type Register struct {
@@ -42,11 +42,11 @@ type Register struct {
 
 type DerivedRegister struct {
 	// derived
-	name        string
-	description string
-	address     int
-	size        int
-	fields      []DerivedField
+	Name          string
+	Description   string
+	Address       int
+	Size          int
+	DerivedFields []DerivedField
 }
 
 type Field struct {
@@ -65,11 +65,12 @@ type Field struct {
 
 type DerivedField struct {
 	// derived
-	name             string
-	description      string
-	lsb              int
-	msb              int
-	EnumeratedValues []EnumeratedValue
+	Name        string
+	Description string
+	Lsb         int
+	Msb         int
+	Size        int
+	Enums       []EnumeratedValue
 }
 
 type Enumeration struct {

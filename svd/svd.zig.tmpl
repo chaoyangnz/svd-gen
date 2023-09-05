@@ -1,0 +1,26 @@
+const mmio = @import("./mmio.zig");
+
+pub const devices = struct {
+    pub const {{ escape .Name }} = struct {
+        pub const peripherals = struct {
+            {{ range $index, $peripheral := .Peripherals }}
+            /// {{ line $peripheral.Description }}
+            pub const {{ escape $peripheral.Name }} = struct {
+                {{ range $index, $register := $peripheral.DerivedRegisters }}
+                /// {{ line $register.Description }}
+                pub const {{ escape $register.Name }} = @as(*volatile mmio.Mmio(packed struct(u{{ $register.Size }}) {
+                    {{ range $index, $field := $register.DerivedFields }}
+                    /// [{{ $field.Lsb }}:{{ $field.Msb }}] {{ line $field.Description }}
+                    {{ escape $field.Name }}: {{ if $field.Enums }} enum(u{{ $field.Size }}) {
+                        {{ range $index, $enum := $field.Enums }}
+                        {{ $enum.Name }} = {{ $enum.Value }},
+                        {{ end }}
+                    }, {{ else }} u{{ $field.Size }}, {{ end }}
+                    {{ end }}
+                }), @ptrFromInt(0x{{ printf "%x" $register.Address }}));
+                {{ end }}
+            };
+            {{ end }}
+        };
+    };
+};

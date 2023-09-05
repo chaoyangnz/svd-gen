@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"text/template"
 )
 
 func main() {
@@ -46,20 +47,45 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("Successfully Opened %s\n", input)
+	fmt.Printf("Succeeded to opened %s\n", input)
 	// defer the closing of our file so that we can parse it later on
 	defer file.Close()
 
 	// read our opened file as a byte array.
 	bytes, _ := io.ReadAll(file)
 
-	device := svd.Read(bytes)
+	device := svd.Parse(bytes)
 
-	data := svd.WriteZig(device)
-	//fmt.Printf("%s", data)
+	f, err := os.OpenFile(output, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	defer f.Close()
 
-	err = os.WriteFile(output, []byte(data), 0644)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
+
+	//content := svd.WriteZig(device)
+	//err = os.WriteFile(output, []byte(content), 0644)
+	//fmt.Printf("%s", data)
+
+	tmpl, err := template.New("svd.zig.tmpl").Funcs(template.FuncMap{
+		"escape": func(identifier string) string {
+			if identifier == "if" || strings.Contains(identifier, "-") {
+				return fmt.Sprintf("@\"%s\"", identifier)
+			}
+			return identifier
+		},
+		"line": func(c string) string {
+			return strings.ReplaceAll(strings.ReplaceAll(c, "\n", ""), "  ", "")
+		},
+	}).ParseFiles("/home/chao.yang/Work/svdc/svd/svd.zig.tmpl")
+
+	err = tmpl.Execute(f, device)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("Succeeded to write %s\n", output)
 }
