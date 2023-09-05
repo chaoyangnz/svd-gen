@@ -125,14 +125,19 @@ func mapField(f *schema.FieldType) Field {
 }
 
 func toNumber(s string) int {
+	if strings.HasPrefix(s, "0x") {
+		n, err := strconv.ParseInt(s[2:], 16, 64)
+		if err != nil {
+			fmt.Printf("Warn: unable to covert %s to hex", s)
+		}
+		return int(n)
+	}
+	if strings.HasSuffix(s, "0b") {
+		n, _ := strconv.ParseInt(s[2:], 2, 64)
+		return int(n)
+	}
 	n, _ := strconv.Atoi(s)
 	return n
-}
-
-func toHex(s string) int {
-	hex := strings.Replace(s, "0x", "", 1)
-	n, _ := strconv.ParseInt(hex, 16, 64)
-	return int(n)
 }
 
 func derive(device Device) {
@@ -150,8 +155,8 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 
 		name := r.Name
 		size := toNumber(device.Width)
-		baseAddress := toHex(p.BaseAddress)
-		addressOffset := toHex(r.AddressOffset)
+		baseAddress := toNumber(p.BaseAddress)
+		addressOffset := toNumber(r.AddressOffset)
 
 		if r.Size != "" {
 			size = toNumber(r.Size)
@@ -164,7 +169,7 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 
 		for k := 0; k < dim; k++ {
 			if dim > 1 {
-				name = strings.ReplaceAll(r.Name, "[%s]", strconv.Itoa(k))
+				name = strings.ReplaceAll(strings.ReplaceAll(r.Name, "[%s]", strconv.Itoa(k)), "%s", strconv.Itoa(k))
 			}
 			registers = append(registers, DerivedRegister{
 				name:        name,

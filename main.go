@@ -46,7 +46,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("Successfully Opened %s", input)
+	fmt.Printf("Successfully Opened %s\n", input)
 	// defer the closing of our file so that we can parse it later on
 	defer file.Close()
 
@@ -56,7 +56,7 @@ func main() {
 	device := svd.Read(bytes)
 
 	data := svd.WriteZig(device)
-	fmt.Printf("%s", data)
+	//fmt.Printf("%s", data)
 
 	err = os.WriteFile(output, []byte(data), 0644)
 	if err != nil {

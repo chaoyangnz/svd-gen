@@ -16,7 +16,7 @@ pub const devices = struct {
 %s
     };
   };
-};`, device.Name, writePeripherals(device.Peripherals))
+};`, escape(device.Name), writePeripherals(device.Peripherals))
 }
 
 func writePeripherals(peripherals []Peripheral) string {
@@ -33,7 +33,7 @@ func writePeripherals(peripherals []Peripheral) string {
       pub const %s = struct {
 %s
       };
-`, comment, peripheral.Name, writeRegisters(peripheral.registers))
+`, comment, escape(peripheral.Name), writeRegisters(peripheral.registers))
 	}
 
 	return s
@@ -53,7 +53,7 @@ func writeRegisters(registers []DerivedRegister) string {
         pub const %s = @as(*volatile mmio.Mmio(packed struct(u%d) {
 %s
         }), @ptrFromInt(0x%x));
-`, comment, register.name, register.size, writeFields(register), register.address)
+`, comment, escape(register.name), register.size, writeFields(register), register.address)
 	}
 
 	return s
@@ -78,7 +78,7 @@ func prettyComment(c string) string {
 }
 
 func escape(identifier string) string {
-	if identifier == "if" {
+	if identifier == "if" || strings.Contains(identifier, "-") {
 		return fmt.Sprintf("@\"%s\"", identifier)
 	}
 	return identifier
