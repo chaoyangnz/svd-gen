@@ -7,6 +7,7 @@ pub const devices = struct {
             /// Coreplex Local Interrupts
             pub const CLINT = struct {
                 
+                
                 /// Hart 0 software interrupt register
                 pub const msip = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -14,6 +15,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x2000000));
+                
+                
                 
                 /// Hart 0 time comparator register
                 pub const mtimecmp = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -23,6 +26,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x2004000));
                 
+                
+                
                 /// Hart 0 time comparator register
                 pub const mtimecmph = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -30,6 +35,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x2004004));
+                
+                
                 
                 /// Timer register
                 pub const mtime = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -39,6 +46,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x200bff8));
                 
+                
+                
                 /// Timer register
                 pub const mtimeh = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -47,10 +56,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x200bffc));
                 
+                
             };
             
             /// Platform Level Interrupt Control
             pub const PLIC = struct {
+                
                 
                 /// Interrupt Priority Register
                 pub const priority0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -60,6 +71,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000000));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -67,6 +80,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000004));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority2 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -76,6 +91,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000008));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority3 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -83,6 +100,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00000c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority4 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -92,6 +111,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000010));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority5 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -99,6 +120,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000014));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority6 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -108,6 +131,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000018));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority7 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -115,6 +140,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00001c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority8 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -124,6 +151,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000020));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority9 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -131,6 +160,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000024));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority10 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -140,6 +171,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000028));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority11 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -147,6 +180,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00002c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority12 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -156,6 +191,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000030));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority13 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -163,6 +200,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000034));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority14 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -172,6 +211,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000038));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority15 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -179,6 +220,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00003c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority16 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -188,6 +231,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000040));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority17 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -195,6 +240,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000044));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority18 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -204,6 +251,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000048));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority19 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -211,6 +260,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00004c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority20 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -220,6 +271,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000050));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority21 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -227,6 +280,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000054));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority22 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -236,6 +291,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000058));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority23 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -243,6 +300,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00005c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority24 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -252,6 +311,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000060));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority25 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -259,6 +320,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000064));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority26 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -268,6 +331,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000068));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority27 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -275,6 +340,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00006c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority28 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -284,6 +351,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000070));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority29 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -291,6 +360,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000074));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority30 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -300,6 +371,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000078));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority31 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -307,6 +380,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00007c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority32 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -316,6 +391,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000080));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority33 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -323,6 +400,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000084));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority34 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -332,6 +411,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000088));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority35 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -339,6 +420,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00008c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority36 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -348,6 +431,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000090));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority37 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -355,6 +440,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc000094));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority38 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -364,6 +451,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc000098));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority39 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -371,6 +460,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc00009c));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority40 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -380,6 +471,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000a0));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority41 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -387,6 +480,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000a4));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority42 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -396,6 +491,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000a8));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority43 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -403,6 +500,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000ac));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority44 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -412,6 +511,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000b0));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority45 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -419,6 +520,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000b4));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority46 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -428,6 +531,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000b8));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority47 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -435,6 +540,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000bc));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority48 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -444,6 +551,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000c0));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority49 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -451,6 +560,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000c4));
+                
+                
                 
                 /// Interrupt Priority Register
                 pub const priority50 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -460,6 +571,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc0000c8));
                 
+                
+                
                 /// Interrupt Priority Register
                 pub const priority51 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -467,6 +580,13 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc0000cc));
+                
+                
+                
+                /// Interrupt Priority Register
+                pub const priority = .{ priority0, priority1, priority2, priority3, priority4, priority5, priority6, priority7, priority8, priority9, priority10, priority11, priority12, priority13, priority14, priority15, priority16, priority17, priority18, priority19, priority20, priority21, priority22, priority23, priority24, priority25, priority26, priority27, priority28, priority29, priority30, priority31, priority32, priority33, priority34, priority35, priority36, priority37, priority38, priority39, priority40, priority41, priority42, priority43, priority44, priority45, priority46, priority47, priority48, priority49, priority50, priority51 };
+                
+                
                 
                 /// Interrupt Pending Register
                 pub const pending0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -476,6 +596,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc001000));
                 
+                
+                
                 /// Interrupt Pending Register
                 pub const pending1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -483,6 +605,13 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc001004));
+                
+                
+                
+                /// Interrupt Pending Register
+                pub const pending = .{ pending0, pending1 };
+                
+                
                 
                 /// Interrupt Enable Register
                 pub const enable0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -492,6 +621,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc002000));
                 
+                
+                
                 /// Interrupt Enable Register
                 pub const enable1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -499,6 +630,13 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0xc002004));
+                
+                
+                
+                /// Interrupt Enable Register
+                pub const enable = .{ enable0, enable1 };
+                
+                
                 
                 /// Priority Threshold Register
                 pub const threshold = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -529,6 +667,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc200000));
                 
+                
+                
                 /// Claim/Complete Register
                 pub const claim = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -537,10 +677,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0xc200004));
                 
+                
             };
             
             /// Watchdog
             pub const WDOG = struct {
+                
                 
                 /// Watchdog Configuration Register
                 pub const wdogcfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -577,6 +719,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000000));
                 
+                
+                
                 /// Watchdog Counter Register
                 pub const wdogcount = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -584,6 +728,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10000008));
+                
+                
                 
                 /// Watchdog Scaled Counter Register
                 pub const wdogs = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -593,6 +739,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000010));
                 
+                
+                
                 /// Watchdog Feed Register
                 pub const wdogfeed = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -601,6 +749,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000018));
                 
+                
+                
                 /// Watchdog Key Register
                 pub const wdogkey = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -608,6 +758,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1000001c));
+                
+                
                 
                 /// Watchdog Compare Register
                 pub const wdogcmp = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -620,10 +772,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000020));
                 
+                
             };
             
             /// Watchdog
             pub const RTC = struct {
+                
                 
                 /// RTC Configuration Register
                 pub const rtccfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -648,6 +802,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000040));
                 
+                
+                
                 /// RTC Counter Low Register
                 pub const rtclo = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -655,6 +811,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10000048));
+                
+                
                 
                 /// RTC Counter High Register
                 pub const rtchi = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -667,6 +825,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1000004c));
                 
+                
+                
                 /// RTC Scaled Counter Register
                 pub const rtcs = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -674,6 +834,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10000050));
+                
+                
                 
                 /// RTC Compare Register
                 pub const rtccmp = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -683,10 +845,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000060));
                 
+                
             };
             
             /// Always-On Clock Configuration
             pub const AONCLK = struct {
+                
                 
                 /// AON Clock Configuration Register
                 pub const lfrosccfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -711,10 +875,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000070));
                 
+                
             };
             
             /// Backup Registers
             pub const BACKUP = struct {
+                
                 
                 /// Backup Register
                 pub const backup0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -724,6 +890,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000080));
                 
+                
+                
                 /// Backup Register
                 pub const backup1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -731,6 +899,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10000084));
+                
+                
                 
                 /// Backup Register
                 pub const backup2 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -740,6 +910,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000088));
                 
+                
+                
                 /// Backup Register
                 pub const backup3 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -747,6 +919,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1000008c));
+                
+                
                 
                 /// Backup Register
                 pub const backup4 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -756,6 +930,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000090));
                 
+                
+                
                 /// Backup Register
                 pub const backup5 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -763,6 +939,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10000094));
+                
+                
                 
                 /// Backup Register
                 pub const backup6 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -772,6 +950,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000098));
                 
+                
+                
                 /// Backup Register
                 pub const backup7 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -779,6 +959,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1000009c));
+                
+                
                 
                 /// Backup Register
                 pub const backup8 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -788,6 +970,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x100000a0));
                 
+                
+                
                 /// Backup Register
                 pub const backup9 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -795,6 +979,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x100000a4));
+                
+                
                 
                 /// Backup Register
                 pub const backup10 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -804,6 +990,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x100000a8));
                 
+                
+                
                 /// Backup Register
                 pub const backup11 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -811,6 +999,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x100000ac));
+                
+                
                 
                 /// Backup Register
                 pub const backup12 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -820,6 +1010,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x100000b0));
                 
+                
+                
                 /// Backup Register
                 pub const backup13 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -827,6 +1019,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x100000b4));
+                
+                
                 
                 /// Backup Register
                 pub const backup14 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -836,6 +1030,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x100000b8));
                 
+                
+                
                 /// Backup Register
                 pub const backup15 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -844,10 +1040,17 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x100000bc));
                 
+                
+                
+                /// Backup Register
+                pub const backup = .{ backup0, backup1, backup2, backup3, backup4, backup5, backup6, backup7, backup8, backup9, backup10, backup11, backup12, backup13, backup14, backup15 };
+                
+                
             };
             
             /// PMU
             pub const PMU = struct {
+                
                 
                 /// PMU Wake Program Memory
                 pub const pmuwakepm0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -878,6 +1081,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000100));
                 
+                
+                
                 /// PMU Wake Program Memory
                 pub const pmuwakepm1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -906,6 +1111,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x10000104));
+                
+                
                 
                 /// PMU Wake Program Memory
                 pub const pmuwakepm2 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -936,6 +1143,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000108));
                 
+                
+                
                 /// PMU Wake Program Memory
                 pub const pmuwakepm3 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -964,6 +1173,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x1000010c));
+                
+                
                 
                 /// PMU Wake Program Memory
                 pub const pmuwakepm4 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -994,6 +1205,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000110));
                 
+                
+                
                 /// PMU Wake Program Memory
                 pub const pmuwakepm5 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1022,6 +1235,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x10000114));
+                
+                
                 
                 /// PMU Wake Program Memory
                 pub const pmuwakepm6 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1052,6 +1267,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000118));
                 
+                
+                
                 /// PMU Wake Program Memory
                 pub const pmuwakepm7 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1080,6 +1297,13 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x1000011c));
+                
+                
+                
+                /// PMU Wake Program Memory
+                pub const pmuwakepm = .{ pmuwakepm0, pmuwakepm1, pmuwakepm2, pmuwakepm3, pmuwakepm4, pmuwakepm5, pmuwakepm6, pmuwakepm7 };
+                
+                
                 
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1110,6 +1334,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000120));
                 
+                
+                
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1138,6 +1364,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x10000124));
+                
+                
                 
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm2 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1168,6 +1396,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000128));
                 
+                
+                
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm3 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1196,6 +1426,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x1000012c));
+                
+                
                 
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm4 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1226,6 +1458,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000130));
                 
+                
+                
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm5 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1254,6 +1488,8 @@ pub const devices = struct {
                     res1:  u22, 
                     
                 }), @ptrFromInt(0x10000134));
+                
+                
                 
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm6 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1284,6 +1520,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000138));
                 
+                
+                
                 /// PMU Sleep Program Memory
                 pub const pmusleeppm7 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1313,6 +1551,13 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1000013c));
                 
+                
+                
+                /// PMU Sleep Program Memory
+                pub const pmusleeppm = .{ pmusleeppm0, pmusleeppm1, pmusleeppm2, pmusleeppm3, pmusleeppm4, pmusleeppm5, pmusleeppm6, pmusleeppm7 };
+                
+                
+                
                 /// PMU Interrupt Enable Register
                 pub const pmuie = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1332,6 +1577,8 @@ pub const devices = struct {
                     res1:  u28, 
                     
                 }), @ptrFromInt(0x10000140));
+                
+                
                 
                 /// PMU Cause Register
                 pub const pmucause = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1366,6 +1613,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000144));
                 
+                
+                
                 /// PMU Sleep Register
                 pub const pmusleep = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1377,6 +1626,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10000148));
                 
+                
+                
                 /// PMU Key Register
                 pub const pmukey = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1385,10 +1636,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1000014c));
                 
+                
             };
             
             /// Power Reset Clock Interrupts
             pub const PRCI = struct {
+                
                 
                 /// Clock Configuration Register
                 pub const hfrosccfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1413,6 +1666,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10008000));
                 
+                
+                
                 /// Clock Configuration Register
                 pub const hfxosccfg = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1426,6 +1681,8 @@ pub const devices = struct {
                     ready:  u1, 
                     
                 }), @ptrFromInt(0x10008004));
+                
+                
                 
                 /// PLL Configuration Register
                 pub const pllcfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1480,6 +1737,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10008008));
                 
+                
+                
                 /// PLL Divider Register
                 pub const plloutdiv = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1497,6 +1756,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1000800c));
                 
+                
+                
                 /// Clock Configuration Register
                 pub const coreclkcfg = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1505,10 +1766,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10008010));
                 
+                
             };
             
             /// One Time Programmable Memory
             pub const OTP = struct {
+                
                 
                 /// Programmed-I/O lock register
                 pub const lock = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1518,6 +1781,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010000));
                 
+                
+                
                 /// OTP device clock signal
                 pub const clock = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1525,6 +1790,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10010004));
+                
+                
                 
                 /// OTP device output-enable signal
                 pub const output_en = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1534,6 +1801,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010008));
                 
+                
+                
                 /// OTP device chip-select signal
                 pub const select = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1541,6 +1810,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1001000c));
+                
+                
                 
                 /// OTP device write-enable signal
                 pub const write_en = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1550,6 +1821,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010010));
                 
+                
+                
                 /// OTP device mode register
                 pub const mode = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1557,6 +1830,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10010014));
+                
+                
                 
                 /// OTP read-voltage regulator control
                 pub const mrr = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1566,6 +1841,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010018));
                 
+                
+                
                 /// OTP write-voltage charge pump control
                 pub const mpp = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1573,6 +1850,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1001001c));
+                
+                
                 
                 /// OTP read-voltage enable
                 pub const vrren = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1582,6 +1861,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010020));
                 
+                
+                
                 /// OTP write-voltage enable
                 pub const vppen = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1589,6 +1870,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10010024));
+                
+                
                 
                 /// OTP device address
                 pub const addr = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1598,6 +1881,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010028));
                 
+                
+                
                 /// OTP device data input
                 pub const data_in = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1605,6 +1890,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x1001002c));
+                
+                
                 
                 /// OTP device data output
                 pub const data_out = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1614,6 +1901,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010030));
                 
+                
+                
                 /// OTP read sequencer control
                 pub const rsctrl = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1622,10 +1911,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10010034));
                 
+                
             };
             
             /// General Purpose Input Output
             pub const GPIO0 = struct {
+                
                 
                 /// Pin value.
                 pub const input_val = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1728,6 +2019,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012000));
                 
+                
+                
                 /// Pin Input Enable Register
                 pub const input_en = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -1828,6 +2121,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x10012004));
+                
+                
                 
                 /// Pin Output Enable Register
                 pub const output_en = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -1930,6 +2225,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012008));
                 
+                
+                
                 /// Output Port Value Register
                 pub const output_val = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -2030,6 +2327,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x1001200c));
+                
+                
                 
                 /// Internal Pull-Up Enable Register
                 pub const pue = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -2132,6 +2431,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012010));
                 
+                
+                
                 /// Pin Drive Strength Register
                 pub const ds = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -2232,6 +2533,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x10012014));
+                
+                
                 
                 /// Rise Interrupt Enable Register
                 pub const rise_ie = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -2334,6 +2637,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012018));
                 
+                
+                
                 /// Rise Interrupt Pending Register
                 pub const rise_ip = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -2434,6 +2739,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x1001201c));
+                
+                
                 
                 /// Fall Interrupt Enable Register
                 pub const fall_ie = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -2536,6 +2843,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012020));
                 
+                
+                
                 /// Fall Interrupt Pending Register
                 pub const fall_ip = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -2636,6 +2945,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x10012024));
+                
+                
                 
                 /// High Interrupt Enable Register
                 pub const high_ie = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -2738,6 +3049,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012028));
                 
+                
+                
                 /// High Interrupt Pending Register
                 pub const high_ip = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -2838,6 +3151,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x1001202c));
+                
+                
                 
                 /// Low Interrupt Enable Register
                 pub const low_ie = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -2940,6 +3255,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012030));
                 
+                
+                
                 /// Low Interrupt Pending Register
                 pub const low_ip = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3041,6 +3358,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012034));
                 
+                
+                
                 /// HW I/O Function Enable Register
                 pub const iof_en = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3141,6 +3460,8 @@ pub const devices = struct {
                     pin31:  u1, 
                     
                 }), @ptrFromInt(0x10012038));
+                
+                
                 
                 /// HW I/O Function Select Register
                 pub const iof_sel = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3435,6 +3756,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1001203c));
                 
+                
+                
                 /// Output XOR (invert) Register
                 pub const out_xor = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3536,10 +3859,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10012040));
                 
+                
             };
             
             /// Universal Asynchronous Receiver Transmitter
             pub const UART0 = struct {
+                
                 
                 /// Transmit Data Register
                 pub const txdata = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3555,6 +3880,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10013000));
                 
+                
+                
                 /// Receive Data Register
                 pub const rxdata = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3568,6 +3895,8 @@ pub const devices = struct {
                     empty:  u1, 
                     
                 }), @ptrFromInt(0x10013004));
+                
+                
                 
                 /// Transmit Control Register
                 pub const txctrl = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3589,6 +3918,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10013008));
                 
+                
+                
                 /// Receive Control Register
                 pub const rxctrl = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3606,6 +3937,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1001300c));
                 
+                
+                
                 /// Interrupt Enable Register
                 pub const ie = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3619,6 +3952,8 @@ pub const devices = struct {
                     res0:  u30, 
                     
                 }), @ptrFromInt(0x10013010));
+                
+                
                 
                 /// Interrupt Pending Register
                 pub const ip = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3634,6 +3969,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10013014));
                 
+                
+                
                 /// Baud Rate Divisor Register
                 pub const div = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3645,10 +3982,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10013018));
                 
+                
             };
             
             /// Quad Serial Peripheral Interface
             pub const QSPI0 = struct {
+                
                 
                 /// Serial Clock Divisor Register
                 pub const div = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3660,6 +3999,8 @@ pub const devices = struct {
                     res0:  u20, 
                     
                 }), @ptrFromInt(0x10014000));
+                
+                
                 
                 /// Serial Clock Mode Register
                 pub const mode = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3675,6 +4016,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014004));
                 
+                
+                
                 /// Chip Select ID Register
                 pub const csid = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3682,6 +4025,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10014010));
+                
+                
                 
                 /// Chip Select Default Register
                 pub const csdef = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3691,6 +4036,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014014));
                 
+                
+                
                 /// Chip Select Mode Register
                 pub const csmode = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3698,6 +4045,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10014018));
+                
+                
                 
                 /// Delay Control 0 Register
                 pub const delay0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3716,6 +4065,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014028));
                 
+                
+                
                 /// Delay Control 1 Register
                 pub const delay1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3732,6 +4083,8 @@ pub const devices = struct {
                     res1:  u8, 
                     
                 }), @ptrFromInt(0x1001402c));
+                
+                
                 
                 /// Frame Format Register
                 pub const fmt = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3776,6 +4129,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014040));
                 
+                
+                
                 /// Transmit Data Register
                 pub const txdata = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3789,6 +4144,8 @@ pub const devices = struct {
                     full:  u1, 
                     
                 }), @ptrFromInt(0x10014048));
+                
+                
                 
                 /// Receive Data Register
                 pub const rxdata = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3804,6 +4161,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1001404c));
                 
+                
+                
                 /// Transmit Watermark Register
                 pub const txmark = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3814,6 +4173,8 @@ pub const devices = struct {
                     res0:  u29, 
                     
                 }), @ptrFromInt(0x10014050));
+                
+                
                 
                 /// Receive Watermark Register
                 pub const rxmark = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3826,6 +4187,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014054));
                 
+                
+                
                 /// SPI Flash Interface Control Register
                 pub const fctrl = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3836,6 +4199,8 @@ pub const devices = struct {
                     res0:  u31, 
                     
                 }), @ptrFromInt(0x10014060));
+                
+                
                 
                 /// SPI Flash Instruction Format Register
                 pub const ffmt = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3896,6 +4261,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014064));
                 
+                
+                
                 /// SPI Interrupt Enable Register
                 pub const ie = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -3909,6 +4276,8 @@ pub const devices = struct {
                     res0:  u30, 
                     
                 }), @ptrFromInt(0x10014070));
+                
+                
                 
                 /// SPI Interrupt Pending Register
                 pub const ip = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -3924,10 +4293,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10014074));
                 
+                
             };
             
             /// 8-bit timer with 4 cmp
             pub const PWM0 = struct {
+                
                 
                 /// PWM Configuration Register
                 pub const cfg = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4000,6 +4371,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10015000));
                 
+                
+                
                 /// Counter Register
                 pub const count = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4008,6 +4381,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10015008));
                 
+                
+                
                 /// Scaled Halfword Counter Register
                 pub const pwms = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4015,6 +4390,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10015010));
+                
+                
                 
                 /// Compare Register
                 pub const cmp0 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4027,6 +4404,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10015020));
                 
+                
+                
                 /// Compare Register
                 pub const cmp1 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4037,6 +4416,8 @@ pub const devices = struct {
                     res0:  u16, 
                     
                 }), @ptrFromInt(0x10015024));
+                
+                
                 
                 /// Compare Register
                 pub const cmp2 = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4049,6 +4430,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10015028));
                 
+                
+                
                 /// Compare Register
                 pub const cmp3 = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4060,10 +4443,12 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1001502c));
                 
+                
             };
             
             /// Inter-Integrated Circuit Master Interface (FE310-G002 only)
             pub const I2C0 = struct {
+                
                 
                 /// Clock Prescale register lo-byte
                 pub const prer_lo = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4076,6 +4461,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10016000));
                 
+                
+                
                 /// Clock Prescale register hi-byte
                 pub const prer_hi = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4086,6 +4473,8 @@ pub const devices = struct {
                     res0:  u24, 
                     
                 }), @ptrFromInt(0x10016004));
+                
+                
                 
                 /// Control register
                 pub const ctr = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4104,6 +4493,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10016008));
                 
+                
+                
                 /// Transmit register / Receive register
                 pub const txr_rxr = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4115,6 +4506,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x1001600c));
                 
+                
+                
                 /// Command register / Status register
                 pub const cr_sr = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4122,6 +4515,8 @@ pub const devices = struct {
                     raw:  u32, 
                     
                 }), @ptrFromInt(0x10016010));
+                
+                
                 
                 /// Command register
                 pub const cr = @as(*volatile mmio.Mmio(packed struct(u32) {
@@ -4158,6 +4553,8 @@ pub const devices = struct {
                     
                 }), @ptrFromInt(0x10016010));
                 
+                
+                
                 /// Status register
                 pub const sr = @as(*volatile mmio.Mmio(packed struct(u32) {
                     
@@ -4183,6 +4580,7 @@ pub const devices = struct {
                     res1:  u24, 
                     
                 }), @ptrFromInt(0x10016010));
+                
                 
             };
             

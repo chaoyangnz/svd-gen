@@ -47,6 +47,7 @@ type DerivedRegister struct {
 	Address       int
 	Size          int
 	DerivedFields []DerivedField
+	Group         []string
 }
 
 type Field struct {

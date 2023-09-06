@@ -202,19 +202,42 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 			dim = toNumber(r.Dim)
 		}
 
-		for k := 0; k < dim; k++ {
-			if dim > 1 {
-				name = replace(r.Name, strconv.Itoa(k), "[%s]", "%s")
-				description = replace(r.Description, strconv.Itoa(k), "[%s]", "%s")
-			}
+		if dim == 1 {
 			registers = append(registers, DerivedRegister{
 				Name:          name,
 				Description:   description,
-				Address:       baseAddress + addressOffset + k*(size/8),
+				Address:       baseAddress + addressOffset,
 				Size:          size,
 				DerivedFields: deriveFields(r, size),
+				Group:         nil,
+			})
+		} else {
+			names := make([]string, dim)
+			// add separate registers
+			for k := 0; k < dim; k++ {
+				name := replace(r.Name, strconv.Itoa(k), "[%s]", "%s")
+				description = replace(r.Description, strconv.Itoa(k), "[%s]", "%s")
+				names[k] = name
+				registers = append(registers, DerivedRegister{
+					Name:          name,
+					Description:   description,
+					Address:       baseAddress + addressOffset + k*(size/8),
+					Size:          size,
+					DerivedFields: deriveFields(r, size),
+					Group:         nil,
+				})
+			}
+			// add a group register
+			registers = append(registers, DerivedRegister{
+				Name:          replace(r.Name, "", "[%s]", "%s"),
+				Description:   replace(r.Description, "N", "[%s]", "%s"),
+				Address:       baseAddress + addressOffset,
+				Size:          size,
+				DerivedFields: deriveFields(r, size),
+				Group:         names,
 			})
 		}
+
 	}
 	return registers
 }

@@ -8,7 +8,7 @@ import (
 	"text/template"
 )
 
-//go:embed svd.zig.tmpl
+//go:embed svd.zig.gotmpl
 var templateFile []byte
 
 func Convert(r io.Reader, w io.Writer) error {
@@ -23,7 +23,7 @@ func Convert(r io.Reader, w io.Writer) error {
 }
 
 func Write(writer io.Writer, device Device) error {
-	tmpl, err := template.New("svd.zig.tmpl").Funcs(template.FuncMap{
+	tmpl, err := template.New("svd.zig.gotmpl").Funcs(template.FuncMap{
 		"escape": func(identifier string) string {
 			if identifier == "if" || strings.Contains(identifier, "-") {
 				return fmt.Sprintf("@\"%s\"", identifier)
@@ -32,6 +32,9 @@ func Write(writer io.Writer, device Device) error {
 		},
 		"line": func(c string) string {
 			return strings.ReplaceAll(strings.ReplaceAll(c, "\n", ""), "  ", "")
+		},
+		"join": func(s []string, sep string) string {
+			return strings.Join(s, sep)
 		},
 	}).Parse(string(templateFile))
 

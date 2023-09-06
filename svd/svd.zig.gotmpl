@@ -7,6 +7,10 @@ pub const devices = struct {
             /// {{ line $peripheral.Description }}
             pub const {{ escape $peripheral.Name }} = struct {
                 {{ range $index, $register := $peripheral.DerivedRegisters }}
+                {{ if $register.Group }}
+                /// {{ line $register.Description }}
+                pub const {{ escape $register.Name }} = .{ {{ join $register.Group ", " }} };
+                {{ else }}
                 /// {{ line $register.Description }}
                 pub const {{ escape $register.Name }} = @as(*volatile mmio.Mmio(packed struct(u{{ $register.Size }}) {
                     {{ range $index, $field := $register.DerivedFields }}
@@ -18,6 +22,7 @@ pub const devices = struct {
                     }, {{ else }} u{{ $field.Size }}, {{ end }}
                     {{ end }}
                 }), @ptrFromInt(0x{{ printf "%x" $register.Address }}));
+                {{ end }}
                 {{ end }}
             };
             {{ end }}
