@@ -113,6 +113,8 @@ func mapField(f *schema.FieldType) Field {
 		enums[l] = enum
 	}
 	return Field{
+		Dim:              f.Dim,
+		DimIncrement:     f.DimIncrement,
 		Name:             f.Name,
 		Description:      f.Description,
 		Lsb:              f.Lsb,
@@ -147,15 +149,21 @@ func toNumber(s string) int {
 }
 
 func info(message string, args ...any) {
-	fmt.Printf("[info]"+message, args)
+	fmt.Printf("[info]"+message, args...)
 }
 
 func warn(message string, args ...any) {
-	fmt.Printf("[warn]"+message, args)
+	fmt.Printf("[warn]"+message, args...)
 }
 
 func fatal(message string, args ...any) {
-	panic(fmt.Sprintf(message, args))
+	panic(fmt.Sprintf("[fatal]"+message, args...))
+}
+
+func assert(exp bool, message string, args ...any) {
+	if !exp {
+		panic(fmt.Sprintf("assert fails: "+message, args...))
+	}
 }
 
 func derive(device Device) {
@@ -180,6 +188,7 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 		r := p.Registers[j]
 
 		name := r.Name
+		description := r.Description
 		size := toNumber(device.Width)
 		baseAddress := toNumber(p.BaseAddress)
 		addressOffset := toNumber(r.AddressOffset)
@@ -195,11 +204,12 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 
 		for k := 0; k < dim; k++ {
 			if dim > 1 {
-				name = replace(name, strconv.Itoa(k), "[%s]", "%s")
+				name = replace(r.Name, strconv.Itoa(k), "[%s]", "%s")
+				description = replace(r.Description, strconv.Itoa(k), "[%s]", "%s")
 			}
 			registers = append(registers, DerivedRegister{
 				Name:          name,
-				Description:   r.Description,
+				Description:   description,
 				Address:       baseAddress + addressOffset + k*(size/8),
 				Size:          size,
 				DerivedFields: deriveFields(r, size),
@@ -226,19 +236,37 @@ func deriveFields(r Register, size int) []DerivedField {
 		} else if f.BitRange != "" {
 			pair := strings.Split(f.BitRange[1:len(f.BitRange)-1], ":")
 			sort.Slice(pair, func(i int, j int) bool { return pair[i] < pair[j] })
-			msb = toNumber(pair[0])
-			lsb = toNumber(pair[1])
+			lsb = toNumber(pair[0])
+			msb = toNumber(pair[1])
 		} else {
 			fatal("Unable to find bit range %s.%s", r.Name, f.Name)
 		}
-		fields = append(fields, DerivedField{
-			Name:        f.Name,
-			Description: f.Description,
-			Lsb:         lsb,
-			Msb:         msb,
-			Size:        msb - lsb + 1,
-			Enums:       f.EnumeratedValues,
-		})
+		assert(lsb <= msb, "%s.%s lsb (%d) is greater than msb (%d)", r.Name, f.Name, lsb, msb)
+		assert(msb-lsb+1 > 0, "%s.%s size is 0 or negative", r.Name, f.Name, lsb, msb)
+
+		dim := 1
+		if f.Dim != "" {
+			dim = toNumber(f.Dim)
+		}
+		name := f.Name
+		description := f.Description
+		size := msb - lsb + 1
+
+		for k := 0; k < dim; k++ {
+			if dim > 1 {
+				name = replace(f.Name, strconv.Itoa(k), "[%s]", "%s")
+				description = replace(f.Description, strconv.Itoa(k), "[%s]", "%s")
+			}
+
+			fields = append(fields, DerivedField{
+				Name:        name,
+				Description: description,
+				Lsb:         lsb + size*k,
+				Msb:         msb + size*k,
+				Size:        size,
+				Enums:       f.EnumeratedValues,
+			})
+		}
 	}
 
 	sort.Slice(fields, func(i, j int) bool {
@@ -253,41 +281,38 @@ func deriveFields(r Register, size int) []DerivedField {
 			Name:  "raw",
 			Lsb:   0,
 			Msb:   size - 1,
+			Size:  size,
 			Enums: nil,
 		})
-	}
-
-	for x := 0; x < len(fields); x++ {
-		// check first reserved
-		if x == 0 {
-			if fields[0].Lsb > 0 {
+	} else {
+		offset := 0
+		for x := 0; x < len(fields); x++ {
+			f := fields[x]
+			if f.Lsb > offset {
 				derivedFields = append(derivedFields, DerivedField{
 					Name:  fmt.Sprintf("res%d", res),
-					Lsb:   0,
-					Msb:   fields[0].Lsb - 1,
+					Lsb:   offset,
+					Msb:   f.Lsb - 1,
+					Size:  f.Lsb - offset,
 					Enums: nil,
 				})
 				res++
 			}
-		}
 
-		f := fields[x]
-		derivedFields = append(derivedFields, f)
-		next := size
-		if x < len(fields)-1 {
-			next = fields[x+1].Lsb
+			derivedFields = append(derivedFields, f)
+			offset = f.Msb + 1
 		}
-		// add reserved fields
-		if f.Msb+1 < next {
+		// check last remaining reserved
+		if offset < size {
 			derivedFields = append(derivedFields, DerivedField{
 				Name:  fmt.Sprintf("res%d", res),
-				Lsb:   fields[x].Msb + 1,
-				Msb:   next - 1,
+				Lsb:   offset,
+				Msb:   size - 1,
+				Size:  size - offset,
 				Enums: nil,
 			})
 			res++
 		}
-
 	}
 
 	return derivedFields

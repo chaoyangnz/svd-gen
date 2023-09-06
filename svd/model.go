@@ -50,8 +50,10 @@ type DerivedRegister struct {
 }
 
 type Field struct {
-	Name        string
-	Description string
+	Dim          string
+	DimIncrement string
+	Name         string
+	Description  string
 	// [1:2]
 	BitRange string
 	// lsb - msb
