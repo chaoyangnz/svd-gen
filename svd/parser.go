@@ -3,7 +3,7 @@ package svd
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/chaoyangnz/svdc/svd/schema"
+	"github.com/chaoyangnz/svd-gen/svd/schema"
 	"sort"
 	"strconv"
 	"strings"

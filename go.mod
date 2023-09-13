@@ -1,3 +1,3 @@
-module github.com/chaoyangnz/svdc
+module github.com/chaoyangnz/svd-gen
 
 go 1.21

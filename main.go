@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/chaoyangnz/svdc/svd"
+	"github.com/chaoyangnz/svd-gen/svd"
 	"os"
 	"path"
 	"strings"
@@ -20,7 +20,7 @@ func main() {
 	flag.Parse()
 
 	if input == "" || output == "" {
-		fmt.Printf("Usage: svdc -i <input_file> -o <output_file> -l <lang> \n")
+		fmt.Printf("Usage: svd-gen -i <input_file> -o <output_file> -l <lang> \n")
 		return
 	}
 
@@ -34,7 +34,7 @@ func main() {
 		} else if extension == "c" {
 			language = "C"
 		} else {
-			fmt.Printf("Usage: svdc -i <input_file> -o <output_file> -l <lang> \n")
+			fmt.Printf("Usage: svd-gen -i <input_file> -o <output_file> -l <lang> \n")
 		}
 	}
 
