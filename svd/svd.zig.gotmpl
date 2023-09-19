@@ -1,31 +1,35 @@
 const mmio = @import("./mmio.zig");
 
 pub const devices = struct {
+    /// {{ line .Description }}
     pub const {{ escape .Name }} = struct {
+        pub const vendor = "{{ .Vendor }}";
+        pub const series = "{{ .Series }}";
+        pub const width = {{ .Width }};
         pub const peripherals = struct {
-            {{ range $index, $peripheral := .Peripherals }}
+        {{ range $index, $peripheral := .Peripherals }}
             /// {{ line $peripheral.Description }}
             pub const {{ escape $peripheral.Name }} = struct {
-                {{ range $index, $register := $peripheral.DerivedRegisters }}
+            {{ range $index, $register := $peripheral.DerivedRegisters }}
                 {{ if $register.Group }}
                 /// {{ line $register.Description }}
                 pub const {{ escape $register.Name }} = .{ {{ join $register.Group ", " }} };
                 {{ else }}
                 /// {{ line $register.Description }}
                 pub const {{ escape $register.Name }} = @as(*volatile mmio.Mmio(packed struct(u{{ $register.Size }}) {
-                    {{ range $index, $field := $register.DerivedFields }}
+                {{ range $index, $field := $register.DerivedFields }}
                     /// [{{ $field.Lsb }}:{{ $field.Msb }}] {{ line $field.Description }}
                     {{ escape $field.Name }}: {{ if $field.Enums }} enum(u{{ $field.Size }}) {
-                        {{ range $index, $enum := $field.Enums }}
+                    {{ range $index, $enum := $field.Enums }}
                         {{ $enum.Name }} = {{ $enum.Value }},
-                        {{ end }}
-                    }, {{ else }} u{{ $field.Size }}, {{ end }}
                     {{ end }}
+                    } {{ if $field.DefaultEnum }} = .{{ $field.DefaultEnum }}, {{ else }}, {{end}} {{ else }} u{{ $field.Size }}, {{ end }}
+                {{ end }}
                 }), @ptrFromInt(0x{{ printf "%x" $register.Address }}));
                 {{ end }}
-                {{ end }}
-            };
             {{ end }}
+            };
+        {{ end }}
         };
     };
 };

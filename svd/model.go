@@ -74,12 +74,7 @@ type DerivedField struct {
 	Msb         int
 	Size        int
 	Enums       []EnumeratedValue
-}
-
-type Enumeration struct {
-	Name            string
-	Usage           string
-	EnumeratedValue []EnumeratedValue
+	DefaultEnum string
 }
 
 type EnumeratedValue struct {

@@ -16,7 +16,7 @@ func main() {
 
 	flag.StringVar(&input, "i", "", "input file *.svd")
 	flag.StringVar(&output, "o", "", "output file")
-	flag.StringVar(&language, "l", "", "output language: Zig, Rust, C")
+	flag.StringVar(&language, "l", "Zig", "output language: Zig, Rust, C")
 	flag.Parse()
 
 	if input == "" || output == "" {
@@ -35,6 +35,7 @@ func main() {
 			language = "C"
 		} else {
 			fmt.Printf("Usage: svd-gen -i <input_file> -o <output_file> -l <lang> \n")
+			return
 		}
 	}
 

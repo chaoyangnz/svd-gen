@@ -281,6 +281,14 @@ func deriveFields(r Register, size int) []DerivedField {
 				description = replace(f.Description, strconv.Itoa(k), "[%s]", "%s")
 			}
 
+			var defaultEnum = ""
+			for _, enum := range f.EnumeratedValues {
+				if enum.IsDefault {
+					defaultEnum = enum.Name
+					break
+				}
+			}
+
 			fields = append(fields, DerivedField{
 				Name:        name,
 				Description: description,
@@ -288,6 +296,7 @@ func deriveFields(r Register, size int) []DerivedField {
 				Msb:         msb + size*k,
 				Size:        size,
 				Enums:       f.EnumeratedValues,
+				DefaultEnum: defaultEnum,
 			})
 		}
 	}
