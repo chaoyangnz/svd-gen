@@ -11,7 +11,16 @@ import (
 //go:embed svd.zig.gotmpl
 var templateFile []byte
 
-func Convert(r io.Reader, w io.Writer) error {
+type Options struct {
+	InitialiseFields bool
+}
+
+type Context struct {
+	Device  Device
+	Options Options
+}
+
+func Convert(r io.Reader, w io.Writer, options Options) error {
 	bytes, err := io.ReadAll(r)
 
 	if err != nil {
@@ -19,10 +28,10 @@ func Convert(r io.Reader, w io.Writer) error {
 	}
 
 	device := Parse(bytes)
-	return Write(w, device)
+	return Write(w, device, options)
 }
 
-func Write(writer io.Writer, device Device) error {
+func Write(writer io.Writer, device Device, options Options) error {
 	tmpl, err := template.New("svd.zig.gotmpl").Funcs(template.FuncMap{
 		"escape": func(identifier string) string {
 			if identifier == "if" || strings.Contains(identifier, "-") {
@@ -38,7 +47,10 @@ func Write(writer io.Writer, device Device) error {
 		},
 	}).Parse(string(templateFile))
 
-	err = tmpl.Execute(writer, device)
+	err = tmpl.Execute(writer, Context{
+		Device:  device,
+		Options: options,
+	})
 
 	return err
 }

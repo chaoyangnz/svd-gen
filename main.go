@@ -13,10 +13,12 @@ func main() {
 	var input string
 	var output string
 	var language string
+	var initialiseFields bool
 
 	flag.StringVar(&input, "i", "", "input file *.svd")
 	flag.StringVar(&output, "o", "", "output file")
 	flag.StringVar(&language, "l", "Zig", "output language: Zig, Rust, C")
+	flag.BoolVar(&initialiseFields, "initialise-fields", true, "initialise fields")
 	flag.Parse()
 
 	if input == "" || output == "" {
@@ -58,7 +60,9 @@ func main() {
 		return
 	}
 
-	svd.Convert(inputFile, outputFile)
+	svd.Convert(inputFile, outputFile, svd.Options{
+		InitialiseFields: initialiseFields,
+	})
 
 	if err != nil {
 		fmt.Println(err)

@@ -1,35 +1,47 @@
 const mmio = @import("./mmio.zig");
-
+{{ $top := . }}
 pub const devices = struct {
-    /// {{ line .Description }}
-    pub const {{ escape .Name }} = struct {
-        pub const vendor = "{{ .Vendor }}";
-        pub const series = "{{ .Series }}";
-        pub const width = {{ .Width }};
+    /// {{ line $top.Device.Description }}
+    pub const {{ escape $top.Device.Name }} = struct {
+        pub const vendor = "{{ $top.Device.Vendor }}";
+        pub const series = "{{ $top.Device.Series }}";
+        pub const width = {{ $top.Device.Width }};
         pub const peripherals = struct {
-        {{ range $index, $peripheral := .Peripherals }}
+        {{- range $index, $peripheral := $top.Device.Peripherals }}
             /// {{ line $peripheral.Description }}
             pub const {{ escape $peripheral.Name }} = struct {
             {{ range $index, $register := $peripheral.DerivedRegisters }}
-                {{ if $register.Group }}
-                /// {{ line $register.Description }}
+                {{- if $register.Group }}
+                /// {{ $register.Name }} group: {{ line $register.Description }}
                 pub const {{ escape $register.Name }} = .{ {{ join $register.Group ", " }} };
-                {{ else }}
+                {{- else }}
                 /// {{ line $register.Description }}
                 pub const {{ escape $register.Name }} = @as(*volatile mmio.Mmio(packed struct(u{{ $register.Size }}) {
                 {{ range $index, $field := $register.DerivedFields }}
                     /// [{{ $field.Lsb }}:{{ $field.Msb }}] {{ line $field.Description }}
-                    {{ escape $field.Name }}: {{ if $field.Enums }} enum(u{{ $field.Size }}) {
-                    {{ range $index, $enum := $field.Enums }}
+                    {{ escape $field.Name }}:
+                    {{- if $field.Enums }} enum(u{{ $field.Size }}) {
+                        {{ range $index, $enum := $field.Enums }}
+                        /// {{ line $enum.Description }}
                         {{ $enum.Name }} = {{ $enum.Value }},
-                    {{ end }}
-                    } {{ if $field.DefaultEnum }} = .{{ $field.DefaultEnum }}, {{ else }}, {{end}} {{ else }} u{{ $field.Size }}, {{ end }}
+                        {{ end }}
+                    }
+                    {{- else }} u{{ $field.Size }}
+                    {{- end }}
+                    {{- if $top.Options.InitialiseFields }}
+                        {{- if $field.Enums -}}
+                        {{ if $field.DefaultEnum }} = .{{ $field.DefaultEnum }}, {{ else }} = .{{ (index $field.Enums 0).Name }}, {{ end }}
+                        {{- else }} = 0,
+                        {{- end }}
+                    {{- else }},
+                    {{- end }}
                 {{ end }}
                 }), @ptrFromInt(0x{{ printf "%x" $register.Address }}));
-                {{ end }}
+                {{- end }}
             {{ end }}
             };
-        {{ end }}
+
+        {{- end }}
         };
     };
 };
