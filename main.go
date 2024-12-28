@@ -17,7 +17,7 @@ func main() {
 
 	flag.StringVar(&input, "i", "", "input file *.svd")
 	flag.StringVar(&output, "o", "", "output file")
-	flag.StringVar(&language, "l", "Zig", "output language: Zig, Rust, C")
+	flag.StringVar(&language, "l", "Zig", "output language: zig, rust, c")
 	flag.BoolVar(&initialiseFields, "initialise-fields", true, "initialise fields")
 	flag.Parse()
 
@@ -30,11 +30,11 @@ func main() {
 		// infer language
 		extension := strings.ToLower(path.Ext(output))
 		if extension == "zig" {
-			language = "Zig"
+			language = "zig"
 		} else if extension == "rs" {
-			language = "Rust"
+			language = "rust"
 		} else if extension == "c" {
-			language = "C"
+			language = "c"
 		} else {
 			fmt.Printf("Usage: svd-gen -i <input_file> -o <output_file> -l <lang> \n")
 			return

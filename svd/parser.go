@@ -264,7 +264,10 @@ func deriveFields(r Register, size int) []DerivedField {
 		} else {
 			fatal("Unable to find bit range %s.%s", r.Name, f.Name)
 		}
-		assert(lsb <= msb, "%s.%s lsb (%d) is greater than msb (%d)", r.Name, f.Name, lsb, msb)
+		if lsb > msb {
+			lsb, msb = msb, lsb
+		}
+		//assert(lsb <= msb, "%s.%s lsb (%d) is greater than msb (%d)", r.Name, f.Name, lsb, msb)
 		assert(msb-lsb+1 > 0, "%s.%s size is 0 or negative", r.Name, f.Name, lsb, msb)
 
 		dim := 1
