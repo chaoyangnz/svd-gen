@@ -3,10 +3,11 @@ package svd
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/chaoyangnz/svd-gen/svd/schema"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/chaoyangnz/svd-gen/svd/schema"
 )
 
 func Parse(svd []byte) Device {
@@ -85,7 +86,7 @@ func mapRegister(r *schema.RegisterType) Register {
 	return Register{
 		Dim:           r.Dim,
 		DimIncrement:  r.DimIncrement,
-		Name:          r.Name,
+		Name:          validName(r.Name),
 		DisplayName:   r.DisplayName,
 		Description:   r.Description,
 		AddressOffset: r.AddressOffset,
@@ -105,7 +106,7 @@ func mapField(f *schema.FieldType) Field {
 	for l := 0; l < len(enums); l++ {
 		e := f.EnumeratedValues[0].EnumeratedValue[l]
 		enum := EnumeratedValue{
-			Name:        e.Name,
+			Name:        validName(e.Name),
 			Description: e.Description,
 			Value:       e.Value,
 			IsDefault:   e.IsDefault,
@@ -115,7 +116,7 @@ func mapField(f *schema.FieldType) Field {
 	return Field{
 		Dim:              f.Dim,
 		DimIncrement:     f.DimIncrement,
-		Name:             f.Name,
+		Name:             validName(f.Name),
 		Description:      f.Description,
 		Lsb:              f.Lsb,
 		Msb:              f.Msb,
@@ -124,6 +125,13 @@ func mapField(f *schema.FieldType) Field {
 		BitRange:         f.BitRange,
 		EnumeratedValues: enums,
 	}
+}
+
+func validName(name string) string {
+	if name[0] >= '0' && name[0] <= '9' {
+		return "@\"" + name + "\""
+	}
+	return name
 }
 
 func toNumber(s string) int {
