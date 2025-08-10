@@ -49,16 +49,25 @@ func mapDevice(dev schema.Device) Device {
 }
 
 func mapPeripheral(p *schema.PeripheralType) Peripheral {
-	length := 0
+	registerLength := 0
+	clusterLength := 0
 	if p.Registers != nil {
-		length = len(p.Registers.Register)
+		registerLength = len(p.Registers.Register)
+		clusterLength = len(p.Registers.Cluster)
 	}
 
-	registers := make([]Register, length)
+	registers := make([]Register, registerLength)
 	for j := 0; j < len(registers); j++ {
 		r := p.Registers.Register[j]
 
 		registers[j] = mapRegister(r)
+	}
+
+	clusters := make([]Cluster, clusterLength)
+	for j := 0; j < len(clusters); j++ {
+		c := p.Registers.Cluster[j]
+
+		clusters[j] = mapCluster(c)
 	}
 
 	return Peripheral{
@@ -67,6 +76,7 @@ func mapPeripheral(p *schema.PeripheralType) Peripheral {
 		Description: p.Description,
 		BaseAddress: p.BaseAddress,
 		Registers:   registers,
+		Clusters:    clusters,
 	}
 }
 
@@ -93,6 +103,28 @@ func mapRegister(r *schema.RegisterType) Register {
 		Size:          r.Size,
 		DataType:      r.DataType,
 		Fields:        fields,
+	}
+}
+
+func mapCluster(c *schema.ClusterType) Cluster {
+	length := 0
+	if c.Register != nil {
+		length = len(c.Register)
+	}
+
+	registers := make([]Register, length)
+	for k := 0; k < len(registers); k++ {
+		r := c.Register[k]
+
+		registers[k] = mapRegister(r)
+	}
+
+	return Cluster{
+		Name:          c.Name,
+		Dim:           c.Dim,
+		DimIncrement:  c.DimIncrement,
+		AddressOffset: c.AddressOffset,
+		Registers:     registers,
 	}
 }
 
@@ -191,14 +223,15 @@ func replace(s string, to string, from ...string) string {
 }
 
 func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
+	size := toNumber(device.Width)
+	baseAddress := toNumber(p.BaseAddress)
+
 	registers := make([]DerivedRegister, 0)
 	for j := 0; j < len(p.Registers); j++ {
 		r := p.Registers[j]
 
 		name := r.Name
 		description := r.Description
-		size := toNumber(device.Width)
-		baseAddress := toNumber(p.BaseAddress)
 		addressOffset := toNumber(r.AddressOffset)
 
 		if r.Size != "" {
@@ -244,6 +277,76 @@ func deriveRegisters(device Device, p Peripheral) []DerivedRegister {
 				DerivedFields: deriveFields(r, size),
 				Group:         names,
 			})
+		}
+
+	}
+	// FIXME, AVOID DUPLICATE
+	for k := 0; k < len(p.Clusters); k++ {
+		c := p.Clusters[k]
+		clusterDim := 1
+		if c.Dim != "" {
+			clusterDim = toNumber(c.Dim)
+		}
+		clusterName := c.Name
+		clusterAddressOffset := toNumber(c.AddressOffset)
+		for kk := 0; kk < clusterDim; kk++ {
+			if clusterDim > 1 {
+				clusterName = replace(c.Name, strconv.Itoa(kk), "[%s]", "%s")
+				clusterAddressOffset = toNumber(c.AddressOffset) + clusterDim*toNumber(c.DimIncrement)
+			}
+
+			for j := 0; j < len(c.Registers); j++ {
+				r := c.Registers[j]
+
+				name := r.Name
+				description := r.Description
+				addressOffset := toNumber(r.AddressOffset)
+
+				if r.Size != "" {
+					size = toNumber(r.Size)
+				}
+
+				dim := 1
+				if r.Dim != "" {
+					dim = toNumber(r.Dim)
+				}
+
+				if dim == 1 {
+					registers = append(registers, DerivedRegister{
+						Name:          clusterName + "_" + name,
+						Description:   description,
+						Address:       baseAddress + clusterAddressOffset + addressOffset,
+						Size:          size,
+						DerivedFields: deriveFields(r, size),
+						Group:         nil,
+					})
+				} else {
+					names := make([]string, dim)
+					// add separate registers
+					for k := 0; k < dim; k++ {
+						name := replace(r.Name, strconv.Itoa(k), "[%s]", "%s")
+						description = replace(r.Description, strconv.Itoa(k), "[%s]", "%s")
+						names[k] = clusterName + "_" + name
+						registers = append(registers, DerivedRegister{
+							Name:          clusterName + "_" + name,
+							Description:   description,
+							Address:       baseAddress + clusterAddressOffset + addressOffset + k*(size/8),
+							Size:          size,
+							DerivedFields: deriveFields(r, size),
+							Group:         nil,
+						})
+					}
+					// add a group register
+					registers = append(registers, DerivedRegister{
+						Name:          clusterName + "_" + replace(r.Name, "", "[%s]", "%s"),
+						Description:   replace(r.Description, "N", "[%s]", "%s"),
+						Address:       baseAddress + clusterAddressOffset + addressOffset,
+						Size:          size,
+						DerivedFields: deriveFields(r, size),
+						Group:         names,
+					})
+				}
+			}
 		}
 
 	}

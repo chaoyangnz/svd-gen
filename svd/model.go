@@ -24,6 +24,7 @@ type Peripheral struct {
 	Description string
 	BaseAddress string
 	Registers   []Register
+	Clusters    []Cluster
 	// derived
 	DerivedRegisters []DerivedRegister
 }
@@ -38,6 +39,14 @@ type Register struct {
 	Size          string
 	DataType      string
 	Fields        []Field
+}
+
+type Cluster struct {
+	Name          string
+	Dim           string
+	DimIncrement  string
+	AddressOffset string
+	Registers     []Register
 }
 
 type DerivedRegister struct {

@@ -278,6 +278,8 @@ type ClusterType struct {
 	DimElementGroup         *DimElementGroup
 	RegisterPropertiesGroup *RegisterPropertiesGroup
 	Name                    string          `xml:"name"`
+	Dim           			string 			`xml:"dim"`
+	DimIncrement 			string 			`xml:"dimIncrement"`
 	Description             string          `xml:"description"`
 	AlternateCluster        string          `xml:"alternateCluster"`
 	HeaderStructName        string          `xml:"headerStructName"`
